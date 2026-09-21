@@ -1,0 +1,19 @@
+{
+  "githubUrl": "https://github.com/Nobbyyinchen/KuiklyToolkit",
+  "examples": [
+    "https://github.com/Nobbyyinchen/KuiklyToolkit/blob/main/sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/ToolkitExamples.kt"
+  ],
+  "componentName": "KuiklyToolkit",
+  "componentDescription": "面向 Kuikly 传统 DSL 的通用 UI 组件库，提供滑动时连续调整高度的 AdaptiveHeightPager、稳定双层节点的 StableImage、一次性懒挂载的 LazyMountContainer 和支持分页去重、失败重试及过期响应丢弃的 PaginatedWaterfall，业务请求和内容渲染由调用方提供。",
+  "componentType": "KMP",
+  "developer": "Nobbyyinchen",
+  "Android": true,
+  "iOS": true,
+  "Ohos": true,
+  "Js": true,
+  "Macos": false,
+  "Linux": false,
+  "Windows": false,
+  "Tvos": false,
+  "sDynamic": true
+}
