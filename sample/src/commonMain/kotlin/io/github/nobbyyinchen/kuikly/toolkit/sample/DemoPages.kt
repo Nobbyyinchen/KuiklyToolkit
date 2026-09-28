@@ -13,6 +13,7 @@ import com.tencent.kuikly.core.reactive.handler.observable
 import com.tencent.kuikly.core.views.Scroller
 import com.tencent.kuikly.core.views.Text
 import com.tencent.kuikly.core.views.View
+import kotlin.math.roundToInt
 import io.github.nobbyyinchen.kuikly.toolkit.debug.DebugConsole
 import io.github.nobbyyinchen.kuikly.toolkit.debug.DebugLogLevel
 import io.github.nobbyyinchen.kuikly.toolkit.debug.DebugLogStore
@@ -88,7 +89,7 @@ class AdaptivePagerDemoPage : Pager() {
                 attr { margin(16f); height(100f); borderRadius(12f); backgroundColor(Color(0xFFF1F5F9)); allCenter() }
                 Text {
                     attr {
-                        text("Following content\nHeight: ${ctx.liveHeight.toInt()}")
+                        text("Following content\nHeight: ${ctx.liveHeight.roundToInt()}")
                         fontSize(18f)
                         color(Color(0xFF334155))
                     }
@@ -102,7 +103,7 @@ class AdaptivePagerDemoPage : Pager() {
 @Page("toolkit_image")
 class StableImageDemoPage : Pager() {
     private var source by observable("assets://toolkit/success.png")
-    private var status by observable("Loading local fixture")
+    private var status by observable("Blue source selected")
 
     override fun body(): ViewBuilder {
         val ctx = this
@@ -119,7 +120,10 @@ class StableImageDemoPage : Pager() {
                     hideFallbackOnSuccess(true)
                     image { resizeCover() }
                 }
-                event { loadFailure { ctx.status = "Load failed; fallback remains visible" } }
+                event {
+                    loadResolution { ctx.status = "Loaded local fixture" }
+                    loadFailure { ctx.status = "Load failed; fallback remains visible" }
+                }
             }
             DemoText(ctx.status)
             DemoButton("Load blue image") { ctx.status = "Blue source selected"; ctx.source = "assets://toolkit/success.png" }

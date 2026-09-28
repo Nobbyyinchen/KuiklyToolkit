@@ -16,6 +16,8 @@
 页面高度不同，横向切换时希望下方内容跟随手势连续移动？`AdaptiveHeightPager` 根据调用方提供的页面高度，随滑动进度连续调整容器高度。
 
 ```kotlin
+import com.tencent.kuikly.core.views.View
+import com.tencent.kuikly.core.views.Text
 import io.github.nobbyyinchen.kuikly.toolkit.pager.AdaptiveHeightPager
 
 // 放在 Kuikly Pager 的 ViewBuilder 中；每项的高度由调用方提供。

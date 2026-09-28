@@ -3,6 +3,7 @@
 ## 0.1.0 — Preview
 
 - Added AdaptiveHeightPager, StableImage, LazyMountContainer and PaginatedWaterfall.
+- Clip adaptive pager content to its changing viewport and preserve each page content height inside the fixed PageList item frame.
 - Added injectable DebugLogStore and DebugConsole.
 - Added a standalone kotlinx.serialization tolerance module.
 - Added independent Android demo sources with six pages and local image fixtures.

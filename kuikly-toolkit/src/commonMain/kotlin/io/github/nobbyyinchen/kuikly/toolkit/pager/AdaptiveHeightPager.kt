@@ -53,8 +53,19 @@ class AdaptiveHeightPagerAttr : ComposeAttr() {
     ) {
         val items = dataList.toList()
         pageHeights = items.map { height(it).coerceAtLeast(0f) }
+        val naturalHeights = pageHeights
+        val maximumHeight = naturalHeights.maxOrNull() ?: 0f
         pageItemsCreator = {
-            items.forEach { item -> creator(item) }
+            items.forEachIndexed { index, item ->
+                // PageList controls its direct child's frame; keep natural content in an inner view.
+                View {
+                    attr { height(maximumHeight) }
+                    View {
+                        attr { height(naturalHeights[index]) }
+                        creator(item)
+                    }
+                }
+            }
         }
     }
 
@@ -106,7 +117,7 @@ class AdaptiveHeightPagerView : ComposeView<AdaptiveHeightPagerAttr, AdaptiveHei
                 attr {
                     if (ctx.attr.pageWidth > 0f) width(ctx.attr.pageWidth)
                     height(ctx.currentHeight)
-                    overflow(false)
+                    overflow(true)
                 }
                 PageList {
                     attr {
@@ -161,7 +172,7 @@ class AdaptiveHeightPagerView : ComposeView<AdaptiveHeightPagerAttr, AdaptiveHei
     }
 }
 
-typealias AdaptiveHeightPagerItemCreator<T> = PageListView<*, *>.(item: T) -> Unit
+typealias AdaptiveHeightPagerItemCreator<T> = ViewContainer<*, *>.(item: T) -> Unit
 
 fun ViewContainer<*, *>.AdaptiveHeightPager(init: AdaptiveHeightPagerView.() -> Unit) {
     addChild(AdaptiveHeightPagerView(), init)
