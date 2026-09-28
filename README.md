@@ -9,9 +9,9 @@
 - `PaginatedWaterfall`：请求、解析和业务 UI 全部外置的双列/多列瀑布流，内置防重复加载、分页上限和过期响应丢弃。
 - `KuiklyLenientSerialization`：兼容后端用空字符串表示 List、Map、Object、Boolean 和数值的异常 JSON。
 
-这些能力抽取自企业级 App 的实际开发模式，源工程覆盖 Android、iOS 和 HarmonyOS。独立库仍需在每次发布前按本文验收矩阵重新完成三端构建与真机测试。
+库使用独立的 KMP 工程、公开依赖与 `commonMain` 源码。组件通过泛型数据、内容构建器和事件回调接入任意 Kuikly Pager，发布前按本文验收矩阵完成构建和真机测试。
 
-库不依赖业务包名、业务模型、路由、埋点、银行 Pager 基类、私有图片或 Native Bridge。源码全部位于 `commonMain`。
+项目边界及验证方法见[独立性说明](docs/INDEPENDENCE.md)。
 
 ## 模块
 
@@ -61,7 +61,7 @@ AdaptiveHeightPager {
 StableImage {
     attr {
         size(120f, 80f)
-        fallbackSrc("assets://common/image-placeholder.png")
+        fallbackSrc(placeholderUri)
         src(imageUrl)
         hideFallbackOnSuccess(true)
         image { resizeCover() }
@@ -72,7 +72,7 @@ StableImage {
 }
 ```
 
-底层兜底图和上层网络图始终存在。网络地址改变时加载状态会重置。透明网络图需要开启 `hideFallbackOnSuccess`，否则透明区域会透出底图。
+底层兜底图和上层网络图始终存在。网络地址改变时加载状态会重置。透明网络图需要开启 `hideFallbackOnSuccess`，否则透明区域会透出底图。`imageUrl` 与 `placeholderUri` 由调用方提供；源码示例通过 `ToolkitExamples(imageUrl, fallbackImageUri)` 接收这两个参数，没有预设宿主 assets 路径或网络地址。
 
 ## LazyMountContainer
 
@@ -168,10 +168,13 @@ object ItemListSerializer : KSerializer<List<Item>> by
 
 ## 构建与测试
 
-在仓库根目录执行：
+独立克隆本仓库后即可构建。环境要求：JDK 17、Android SDK（platform 34）和 Python 3；配置标准 `ANDROID_HOME` 或本机的 `local.properties`。Gradle wrapper、Node 和测试依赖由公开源自动下载。`local.properties` 不提交到 Git。
+
+在仓库根目录执行（Windows 使用 `gradlew.bat`）：
 
 ```shell
-./gradlew :kuikly-toolkit:jsNodeTest \
+python3 scripts/check_independence.py
+./gradlew --no-daemon :kuikly-toolkit:jsNodeTest \
   :kuikly-lenient-serialization:jsNodeTest \
   :kuikly-toolkit:compileReleaseKotlinAndroid \
   :kuikly-lenient-serialization:compileReleaseKotlinAndroid \
@@ -179,7 +182,7 @@ object ItemListSerializer : KSerializer<List<Item>> by
   :sample:compileReleaseKotlinAndroid
 ```
 
-HarmonyOS 需要 Kuikly 定制 Kotlin 工具链：
+HarmonyOS 使用公开的 Kuikly KBA 工具链与适配运行库，由 `OHOS_SERIALIZATION_VERSION` 单独管理；标准 Android/iOS/JS 工程使用 Maven Central 的 kotlinx.serialization 1.7.3：
 
 ```shell
 ./gradlew -c settings.ohos.gradle.kts \
@@ -189,7 +192,9 @@ HarmonyOS 需要 Kuikly 定制 Kotlin 工具链：
 
 ## 发布验收矩阵
 
-目前已完成 Android 库与示例编译、JS 库与示例编译，以及 16 项 JS 单元测试；测试覆盖高度插值、日志存储、分页状态和序列化规则。测试不包含 Native 图片加载或组件真机交互。iOS 目标已配置，需在 macOS/Xcode 环境构建；HarmonyOS 构建配置已提供，本次验证因 KBA 编译器依赖下载受阻而未完成。目录平台字段表示源码适配目标，真机验收仍按以下矩阵执行。示例为可嵌入已有 Pager 的源码，图片 URL 和占位资源由接入方替换。
+独立构建由 [Standalone build](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/workflows/ci.yml) 在全新 GitHub runner、空 Gradle 缓存与公开依赖源中验证，覆盖 Android 库/示例编译、JS 库/示例编译和 16 项 JS 单元测试。具体通过状态以该工作流结果为准。单测覆盖高度插值、日志存储、分页状态和序列化规则，不包含 Native 图片加载或组件真机交互。
+
+iOS 目标已配置，需在 macOS/Xcode 环境构建；HarmonyOS 构建配置已提供，独立 KBA 构建和真机验证尚待完成。目录平台字段表示源码适配目标，真机验收按以下矩阵执行。
 
 - Android：分页高度过渡、图片成功/失败/URL 切换、懒加载一次性、瀑布流翻页/失败重试/过期响应、Console 打开/清空/复制。
 - iOS：以上场景，加测 TurboDisplay 首屏回放。

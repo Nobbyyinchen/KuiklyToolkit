@@ -32,6 +32,8 @@ val exampleDebugLogStore = DebugLogStore(
 
 /** Source-only examples that can be embedded in an existing Kuikly Pager. */
 fun ViewContainer<*, *>.ToolkitExamples(
+    imageUrl: String = "",
+    fallbackImageUri: String = "",
     copyToClipboard: (String) -> Unit = {},
 ) {
     View {
@@ -75,8 +77,9 @@ fun ViewContainer<*, *>.ToolkitExamples(
             attr {
                 marginTop(16f)
                 size(120f, 80f)
-                fallbackSrc("assets://toolkit/image-placeholder.png")
-                src("https://example.com/image.png")
+                backgroundColor(Color(0xFFF2F3F5))
+                fallbackSrc(fallbackImageUri)
+                src(imageUrl)
                 hideFallbackOnSuccess(true)
                 image { resizeCover() }
             }

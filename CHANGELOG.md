@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Removed local JAR/KLIB dependency injection from all build variants.
+- Use Maven Central serialization for standard targets and a separate public KBA version for HarmonyOS.
+- Replaced the wrapper with the official Gradle 8.11.1 runner and verified checksums.
+- Added a standalone CI build with an empty dependency cache and an import/build boundary check.
+- Made sample image sources explicit parameters instead of assumed host assets.
+
 ## 1.0.0
 
 - Added `AdaptiveHeightPager` with continuous height interpolation.

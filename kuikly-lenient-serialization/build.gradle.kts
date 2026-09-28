@@ -6,7 +6,6 @@ plugins {
 
 group = providers.gradleProperty("GROUP_ID").get()
 version = providers.gradleProperty("VERSION_NAME").get()
-val localSerializationRoot = providers.gradleProperty("LOCAL_SERIALIZATION_ROOT").orNull
 
 kotlin {
     androidTarget { publishLibraryVariants("release") }
@@ -20,25 +19,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            if (localSerializationRoot == null) {
-                api("org.jetbrains.kotlinx:kotlinx-serialization-json:${providers.gradleProperty("SERIALIZATION_VERSION").get()}")
-            } else {
-                api(files("$localSerializationRoot/core-metadata.jar"))
-                api(files("$localSerializationRoot/json-metadata.jar"))
-            }
+            api("org.jetbrains.kotlinx:kotlinx-serialization-json:${providers.gradleProperty("SERIALIZATION_VERSION").get()}")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
-        }
-        if (localSerializationRoot != null) {
-            jsMain.dependencies {
-                api(files("$localSerializationRoot/core-js.klib"))
-                api(files("$localSerializationRoot/json-js.klib"))
-            }
-            androidMain.dependencies {
-                api(files("$localSerializationRoot/core-jvm.jar"))
-                api(files("$localSerializationRoot/json-jvm.jar"))
-            }
         }
     }
 }
