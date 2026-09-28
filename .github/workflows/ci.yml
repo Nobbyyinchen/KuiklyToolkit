@@ -12,10 +12,10 @@ permissions:
 jobs:
   android-and-js:
     runs-on: ubuntu-latest
-    env:
-      GRADLE_USER_HOME: ${{ runner.temp }}/kuikly-toolkit-gradle
     steps:
       - uses: actions/checkout@v6
+      - name: Use isolated Gradle home
+        run: echo "GRADLE_USER_HOME=$RUNNER_TEMP/kuikly-toolkit-gradle" >> "$GITHUB_ENV"
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
