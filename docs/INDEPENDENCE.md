@@ -39,6 +39,10 @@ All UI calls must follow the Kuikly runtime's normal thread/lifecycle requiremen
 
 The `Standalone build` GitHub workflow checks out only this repository, uses a fresh runner and an empty Gradle dependency cache, downloads public dependencies and runs the commands documented in README. It does not use a caller's checkout, Gradle init script, local JAR/KLIB, copied Node packages or skipped dependency installation.
 
-`scripts/check_independence.py` rejects imports outside the public/own package allowlist, local binary repositories, absolute filesystem paths, private Maven endpoints and project dependencies outside the three repository modules. This check runs before compilation in CI.
+`scripts/check_independence.py` rejects imports outside the public/own package allowlist, local binary repositories, absolute filesystem paths, private Maven endpoints and project dependencies outside the four repository modules in the standard build. This check runs before compilation in CI.
 
 JS tests validate 16 algorithm/serialization cases. Android/JS libraries and examples are compiled independently. iOS requires a macOS/Xcode build; HarmonyOS KBA builds and all platform UI interactions require separate validation. A successful compile does not stand in for device verification.
+
+## Independent Android demo
+
+The android-demo module uses public core-render-android and sample dependencies. Its Activity, local PNG fixtures, delayed asset image loader and clipboard callback belong to this repository. Native android/java imports are allowed only inside the demo host; library and common source imports remain restricted. The demo registers sample pages with the public core-ksp processor. Android emulator evidence is separate from physical-device and other-platform acceptance.

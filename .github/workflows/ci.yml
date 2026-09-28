@@ -26,11 +26,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
         with:
           cache-disabled: true
-      - name: Check standalone boundaries
-        run: python3 scripts/check_independence.py
+      - name: Check standalone boundaries and documentation
+        run: |
+          python3 scripts/check_independence.py
+          python3 scripts/check_docs.py
       - name: Install Android platform
         run: sdkmanager 'platforms;android-34'
-      - name: Build libraries, examples and tests from public dependencies
+      - name: Build libraries, examples, APK and tests from public dependencies
         run: >-
           ./gradlew --no-daemon
           :kuikly-toolkit:jsNodeTest
@@ -39,3 +41,24 @@ jobs:
           :kuikly-lenient-serialization:compileReleaseKotlinAndroid
           :sample:compileKotlinJs
           :sample:compileReleaseKotlinAndroid
+          :android-demo:assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kuikly-toolkit-android-demo
+          path: android-demo/build/outputs/apk/debug/android-demo-debug.apk
+          if-no-files-found: error
+      - name: Enable emulator acceleration
+        run: sudo chmod 666 /dev/kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: bash scripts/android-smoke.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-demo-evidence
+          path: build/demo-evidence
+          if-no-files-found: warn

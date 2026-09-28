@@ -1,19 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.1.0 — Preview
 
-- Removed local JAR/KLIB dependency injection from all build variants.
-- Use Maven Central serialization for standard targets and a separate public KBA version for HarmonyOS.
-- Replaced the wrapper with the official Gradle 8.11.1 runner and verified checksums.
-- Added a standalone CI build with an empty dependency cache and an import/build boundary check.
-- Made sample image sources explicit parameters instead of assumed host assets.
+- Added AdaptiveHeightPager, StableImage, LazyMountContainer and PaginatedWaterfall.
+- Added injectable DebugLogStore and DebugConsole.
+- Added a standalone kotlinx.serialization tolerance module.
+- Added independent Android demo sources with six pages and local image fixtures.
+- Added Chinese/English overviews, source integration guidance and a validation matrix.
+- Added Android/JS compilation, 16 JS tests and an Android emulator smoke workflow.
+- Use public dependencies, an official Gradle 8.11.1 wrapper and project boundary checks.
 
-## 1.0.0
-
-- Added `AdaptiveHeightPager` with continuous height interpolation.
-- Added stable two-layer `StableImage`.
-- Added one-shot `LazyMountContainer`.
-- Added injectable `DebugLogStore` and `DebugConsole`.
-- Added business-neutral `PaginatedWaterfall` and a stale-response-safe pagination controller.
-- Added lenient kotlinx.serialization adapters and compatibility aliases.
-- Added common tests and source-only examples.
+This preview is distributed as source and demo artifacts. Maven Central packages have not been published. Check the current CI and compatibility matrix for validated platforms; physical-device UI acceptance remains separate.

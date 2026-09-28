@@ -1,0 +1,45 @@
+name: Bug or integration problem
+description: Report a reproducible issue or a source integration failure.
+title: "[Bug] "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Toolkit commit or version
+    validations:
+      required: true
+  - type: input
+    id: toolchain
+    attributes:
+      label: Kotlin, Kuikly and host toolchain versions
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android
+        - JS / Browser
+        - iOS
+        - HarmonyOS
+        - Serialization without Kuikly
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction and steps
+      description: Include the smallest example that demonstrates the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Build errors, logs or screenshots

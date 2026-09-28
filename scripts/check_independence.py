@@ -13,7 +13,7 @@ allowed_imports = (
     "kotlin.", "kotlinx.serialization.", "com.tencent.kuikly.core.",
     "io.github.nobbyyinchen.kuikly.",
 )
-allowed_modules = {"kuikly-toolkit", "kuikly-lenient-serialization", "sample"}
+allowed_modules = {"kuikly-toolkit", "kuikly-lenient-serialization", "sample", "android-demo"}
 violations = []
 
 for relative in tracked:
@@ -24,7 +24,8 @@ for relative in tracked:
     for line_number, line in enumerate(text.splitlines(), 1):
         if relative.endswith(".kt"):
             match = re.match(r"\s*import\s+([^\s;]+)", line)
-            if match and not match[1].startswith(allowed_imports):
+            host_import = relative.startswith("android-demo/src/") and match and match[1].startswith(("android.", "java."))
+            if match and not host_import and not match[1].startswith(allowed_imports):
                 violations.append(f"{relative}:{line_number}: application import")
         if re.search(r"(?:flatDir|mavenLocal|includeBuild|files)\s*\(", line):
             violations.append(f"{relative}:{line_number}: local dependency source")

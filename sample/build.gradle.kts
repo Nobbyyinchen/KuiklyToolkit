@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("com.google.devtools.ksp")
 }
 
 kotlin {
@@ -14,8 +15,13 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":kuikly-toolkit"))
             implementation(project(":kuikly-lenient-serialization"))
+            implementation("com.tencent.kuikly-open:core-annotations:${providers.gradleProperty("KUIKLY_VERSION").get()}")
         }
     }
+}
+
+dependencies {
+    add("kspAndroid", "com.tencent.kuikly-open:core-ksp:${providers.gradleProperty("KUIKLY_VERSION").get()}")
 }
 
 android {

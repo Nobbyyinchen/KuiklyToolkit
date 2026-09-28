@@ -1,7 +1,7 @@
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id == "com.android.library") {
+            if (requested.id.id in setOf("com.android.library", "com.android.application")) {
                 useModule("com.android.tools.build:gradle:${requested.version}")
             }
         }
@@ -28,3 +28,4 @@ rootProject.name = "KuiklyToolkit"
 include(":kuikly-toolkit")
 include(":kuikly-lenient-serialization")
 include(":sample")
+include(":android-demo")

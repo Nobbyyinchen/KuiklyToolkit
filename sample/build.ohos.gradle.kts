@@ -14,6 +14,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":kuikly-toolkit"))
             implementation(project(":kuikly-lenient-serialization"))
+            implementation("com.tencent.kuikly-open:core-annotations:${providers.gradleProperty("KUIKLY_OHOS_VERSION").get()}")
         }
     }
 }
