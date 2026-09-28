@@ -16,7 +16,7 @@ The Android demo registers its pages with public Kuikly core-ksp and KSP 2.1.21-
 
 | Target | Configured | Compilation / algorithm tests | UI runtime evidence |
 | --- | --- | --- | --- |
-| Android | Yes | Library/sample compilation; demo APK built by current CI | Six-page emulator smoke workflow; check the current run for success |
+| Android | Yes | Library/sample compilation; demo APK built by current CI | [Six-page emulator smoke passed](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590); physical-device acceptance pending |
 | JS | Yes | Libraries/sample compile; 16 JS tests | Browser and mini-program UI hosts not validated |
 | iOS | Yes | Independent macOS/Xcode build pending | Device interaction and TurboDisplay replay pending |
 | HarmonyOS | Separate KBA configuration | Independent KBA build pending | Device interaction and TurboDisplay replay pending |

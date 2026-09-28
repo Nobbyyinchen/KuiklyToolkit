@@ -9,7 +9,11 @@
 
 面向 [KuiklyUI](https://github.com/Tencent-TDS/KuiklyUI) **传统 DSL** 的通用组件与端内调试工具，另含可以独立使用的 KMP JSON 容错模块。
 
-**[运行 Android Demo](docs/DEMO.md)** · **[快速接入](docs/QUICK_START.md)** · **[组件示例与边界](docs/COMPONENTS.md)** · **[验证矩阵](docs/COMPATIBILITY.md)**
+**[下载预览 APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0)** · **[运行 Android Demo](docs/DEMO.md)** · **[快速接入](docs/QUICK_START.md)** · **[组件示例与边界](docs/COMPONENTS.md)** · **[验证矩阵](docs/COMPATIBILITY.md)**
+
+![AdaptiveHeightPager — actual Android demo](docs/media/adaptive-height-pager.gif)
+
+真实 Android 模拟器录屏，展示不同高度页面及跟随内容。 [MP4](docs/media/adaptive-height-pager.mp4) · [CI evidence](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590)
 
 ## 从一个具体问题开始
 
@@ -34,7 +38,7 @@ AdaptiveHeightPager {
 }
 ```
 
-完整页面见 [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/DemoPages.kt)，可从独立 Android Demo 菜单直接打开。组件是有边界分页器，不自动测量内容、不创建首尾循环节点。
+完整页面见 [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/DemoPages.kt)，可从独立 Android Demo 菜单直接打开。组件是有边界分页器，不自动测量内容、不创建首尾循环节点。[实现说明：异高页面切换](docs/ADAPTIVE_PAGER.md)。
 
 ## 六个能力，按需使用
 

@@ -9,7 +9,11 @@ Reusable Kuikly components for smoother pages and easier debugging.
 
 UI components and in-app debugging tools for the **traditional Kuikly DSL**, plus a standalone KMP JSON serialization module.
 
-**[Run the Android demo](docs/DEMO.md)** · **[Get started](docs/QUICK_START.md)** · **[Examples](docs/COMPONENTS.md)** · **[Compatibility](docs/COMPATIBILITY.md)**
+**[Download preview APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0)** · **[Run the Android demo](docs/DEMO.md)** · **[Get started](docs/QUICK_START.md)** · **[Examples](docs/COMPONENTS.md)** · **[Compatibility](docs/COMPATIBILITY.md)**
+
+![AdaptiveHeightPager — actual Android demo](docs/media/adaptive-height-pager.gif)
+
+Recorded from the actual Android demo on an API 29 emulator. [MP4](docs/media/adaptive-height-pager.mp4) · [CI evidence](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590)
 
 ## Start with a visible problem
 

@@ -14,6 +14,8 @@ adb install -r android-demo/build/outputs/apk/debug/android-demo-debug.apk
 Use gradlew.bat on Windows, or run android-demo from Android Studio.
 The APK is also uploaded by the standalone GitHub workflow when its build succeeds.
 
+[Download v0.1.0 preview APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0) · [Watch the recorded pager](media/adaptive-height-pager.mp4)
+
 ## Menu / 操作
 
 | Page | What to try |
@@ -42,3 +44,5 @@ The standalone workflow assembles the APK and runs scripts/android-smoke.sh on a
 ## Public API references
 
 The host follows the official [Android integration guide](https://github.com/Tencent-TDS/KuiklyUI/blob/main/docs/QuickStart/android.md), including KuiklyBaseView attach/pause/resume/detach and public render adapters. Page registration uses the official core-ksp processor.
+
+Validated source: f7e53971555af9d76ec8e6039fd2a4bc53589a7f. [Successful run](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590).
