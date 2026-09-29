@@ -42,9 +42,11 @@ AdaptiveHeightPager {
 
 ## 真机页面里的接口调试台
 
+![DebugConsole — API debugging demo](docs/media/debug-console.gif)
+
 开发和联调阶段可以直接在运行中的 Kuikly 页面查看调试日志。业务可以将接口方法、请求参数、返回结果、页面状态和异常写入 `DebugLogStore`，再通过 `DebugConsole` 在真机中搜索、筛选、折叠、清空和复制。
 
-Demo 提供获取用户、加载商品、提交订单、接口失败和轮询五组本地模拟操作，同时覆盖 INFO、WARN、ERROR、不同 tag 与重复日志。所有请求均为离线 Mock。
+Demo 提供获取用户、加载商品、提交订单、接口失败和轮询五组本地模拟操作，同时覆盖 INFO、WARN、ERROR、不同 tag 与重复日志。所有请求均为离线 Mock。[MP4](docs/media/debug-console.mp4)
 
 > 日志由业务主动写入 `DebugLogStore`；`DebugConsole` 不负责自动 Hook 网络请求或业务方法。
 

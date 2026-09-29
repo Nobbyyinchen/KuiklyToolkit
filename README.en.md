@@ -23,9 +23,11 @@ The complete [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobb
 
 ## API debugging on a running device
 
+![DebugConsole — API debugging demo](docs/media/debug-console.gif)
+
 During development, business code can append methods, parameters, responses, state transitions and failures to `DebugLogStore`, then inspect, search, filter, fold, clear and copy them through `DebugConsole` on the running Kuikly page.
 
-The demo provides five offline mock operations covering INFO, WARN, ERROR, multiple tags and repeated polling logs. Logs are written explicitly by business code; `DebugConsole` does not automatically hook network requests or methods.
+The demo provides five offline mock operations covering INFO, WARN, ERROR, multiple tags and repeated polling logs. Logs are written explicitly by business code; `DebugConsole` does not automatically hook network requests or methods. [Watch the MP4](docs/media/debug-console.mp4).
 
 | Use case | Component |
 | --- | --- |

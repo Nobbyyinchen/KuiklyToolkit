@@ -14,7 +14,7 @@ adb install -r android-demo/build/outputs/apk/debug/android-demo-debug.apk
 Use gradlew.bat on Windows, or run android-demo from Android Studio.
 The APK is also uploaded by the standalone GitHub workflow when its build succeeds.
 
-[Download v0.1.0 preview APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0) · [Watch the recorded pager](media/adaptive-height-pager.mp4)
+[Download v0.1.0 preview APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0) · [Watch the recorded pager](media/adaptive-height-pager.mp4) · [Watch DebugConsole](media/debug-console.mp4)
 
 ## Menu / 操作
 
@@ -39,10 +39,10 @@ Other page names: toolkit_image, toolkit_lazy, toolkit_waterfall, toolkit_consol
 
 ## CI evidence
 
-The standalone workflow assembles the APK and runs scripts/android-smoke.sh on an Android API 29 emulator. Its evidence artifact contains page-load logs, screenshots and a real pager recording. Read the actual workflow result before treating a run as passed.
+The standalone workflow assembles the APK and runs scripts/android-smoke.sh on an Android API 29 emulator. Its evidence artifact contains page-load logs, screenshots and real recordings for both AdaptiveHeightPager and DebugConsole. Read the actual workflow result before treating a run as passed.
 
 ## Public API references
 
 The host follows the official [Android integration guide](https://github.com/Tencent-TDS/KuiklyUI/blob/main/docs/QuickStart/android.md), including KuiklyBaseView attach/pause/resume/detach and public render adapters. Page registration uses the official core-ksp processor.
 
-Validated source: f7e53971555af9d76ec8e6039fd2a4bc53589a7f. [Successful run](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590).
+Validated source: a46c8ba88eea39f711097ff892b07d7d5a60d866. [Successful run](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36548719097).
