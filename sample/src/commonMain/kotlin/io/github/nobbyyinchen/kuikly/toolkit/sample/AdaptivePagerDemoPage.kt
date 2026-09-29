@@ -68,7 +68,7 @@ class AdaptivePagerDemoPage : Pager() {
                 }
             }
 
-            CategoryTabs(categories, ctx.selectedCategoryIndex, width)
+            CategoryTabs(categories, selectedIndex = { ctx.selectedCategoryIndex }, width = width)
 
             AdaptiveHeightPager {
                 attr {
@@ -81,9 +81,11 @@ class AdaptivePagerDemoPage : Pager() {
                 event {
                     heightDidChange { ctx.liveHeight = it }
                     scroll { params ->
-                        ctx.pendingCategoryIndex = (params.offsetX / width)
+                        val nextIndex = (params.offsetX / width)
                             .roundToInt()
                             .coerceIn(categories.indices)
+                        ctx.pendingCategoryIndex = nextIndex
+                        ctx.selectedCategoryIndex = nextIndex
                     }
                     pageIndexDidChanged { params ->
                         val reportedIndex = params as? Int
@@ -93,7 +95,7 @@ class AdaptivePagerDemoPage : Pager() {
                 }
             }
 
-            FeaturedContent(ctx.liveHeight)
+            FeaturedContent { ctx.liveHeight }
 
             Text {
                 attr {
@@ -111,9 +113,10 @@ class AdaptivePagerDemoPage : Pager() {
 
 private fun ViewContainer<*, *>.CategoryTabs(
     categories: List<MenuCategory>,
-    selectedIndex: Int,
+    selectedIndex: () -> Int,
     width: Float,
 ) {
+    val tabWidth = width / categories.size
     View {
         attr {
             marginLeft(16f)
@@ -124,7 +127,7 @@ private fun ViewContainer<*, *>.CategoryTabs(
         categories.forEachIndexed { index, category ->
             View {
                 attr {
-                    width(width / categories.size)
+                    width(tabWidth)
                     height(42f)
                     allCenter()
                 }
@@ -132,20 +135,21 @@ private fun ViewContainer<*, *>.CategoryTabs(
                     attr {
                         text(category.title)
                         fontSize(15f)
-                        color(if (index == selectedIndex) Color(0xFF2563EB) else Color(0xFF64748B))
-                        if (index == selectedIndex) fontWeightBold()
+                        color(if (index == selectedIndex()) Color(0xFF2563EB) else Color(0xFF64748B))
+                        if (index == selectedIndex()) fontWeightBold()
                     }
                 }
-                if (index == selectedIndex) {
-                    View {
-                        attr {
-                            positionAbsolute()
-                            bottom(0f)
-                            width(28f)
-                            height(3f)
-                            borderRadius(2f)
-                            backgroundColor(Color(0xFF2563EB))
-                        }
+                View {
+                    attr {
+                        positionAbsolute()
+                        left((tabWidth - 28f) / 2f)
+                        bottom(0f)
+                        width(28f)
+                        height(3f)
+                        borderRadius(2f)
+                        backgroundColor(
+                            if (index == selectedIndex()) Color(0xFF2563EB) else Color(0x00000000)
+                        )
                     }
                 }
             }
@@ -207,7 +211,7 @@ private fun ViewContainer<*, *>.MenuGrid(category: MenuCategory, width: Float) {
     }
 }
 
-private fun ViewContainer<*, *>.FeaturedContent(liveHeight: Float) {
+private fun ViewContainer<*, *>.FeaturedContent(liveHeight: () -> Float) {
     View {
         attr {
             height(30f)
@@ -227,7 +231,7 @@ private fun ViewContainer<*, *>.FeaturedContent(liveHeight: Float) {
         }
         Text {
             attr {
-                text("Pager height: ${liveHeight.roundToInt()}")
+                text("Pager height: ${liveHeight().roundToInt()}")
                 fontSize(11f)
                 color(Color(0xFF94A3B8))
             }

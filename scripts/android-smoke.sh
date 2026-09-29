@@ -36,20 +36,20 @@ for page in toolkit_pager toolkit_image toolkit_lazy toolkit_waterfall toolkit_c
     recorder=$!
     sleep 1
     # Trigger user, order and failure mock actions, then open the floating console.
-    adb shell input tap 540 540
-    adb shell input tap 540 908
-    adb shell input tap 540 1092
-    adb shell input tap 930 1475
+    adb shell input tap 540 676
+    adb shell input tap 540 1011
+    adb shell input tap 540 1180
+    adb shell input tap 930 1497
     sleep 2
     # Search for order, reset the query, filter errors, then tap a log to copy it.
-    adb shell input tap 400 895
+    adb shell input tap 400 930
     adb shell input text order
     sleep 2
     adb shell input keyevent KEYCODE_BACK
-    adb shell input tap 960 895
-    adb shell input tap 650 795
+    adb shell input tap 1005 930
+    adb shell input tap 750 830
     sleep 2
-    adb shell input tap 540 1035
+    adb shell input tap 540 1060
     wait "$recorder"
     adb pull /sdcard/toolkit-console.mp4 "$evidence/debug-console.mp4"
     adb exec-out screencap -p > "$evidence/console-open.png"
