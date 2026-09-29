@@ -14,6 +14,7 @@ import com.tencent.kuikly.core.directives.vfor
 import com.tencent.kuikly.core.directives.vif
 import com.tencent.kuikly.core.reactive.handler.observable
 import com.tencent.kuikly.core.reactive.handler.observableList
+import com.tencent.kuikly.core.views.Input
 import com.tencent.kuikly.core.views.Modal
 import com.tencent.kuikly.core.views.Scroller
 import com.tencent.kuikly.core.views.Text
@@ -54,6 +55,7 @@ class DebugConsoleEvent : ComposeEvent() {
 class DebugConsoleView : ComposeView<DebugConsoleAttr, DebugConsoleEvent>() {
     private var expanded by observable(false)
     private var errorOnly by observable(false)
+    private var searchKeyword by observable("")
     private var displayLogs by observableList<DebugLogEntry>()
     private var listenerId = 0
 
@@ -167,6 +169,49 @@ class DebugConsoleView : ComposeView<DebugConsoleAttr, DebugConsoleEvent>() {
                                     }
                                 }
 
+                                View {
+                                    attr {
+                                        height(38f)
+                                        marginBottom(8f)
+                                        flexDirectionRow()
+                                        alignItemsCenter()
+                                    }
+                                    Input {
+                                        attr {
+                                            flex(1f)
+                                            height(34f)
+                                            borderRadius(8f)
+                                            backgroundColor(Color(0xFF1F2937))
+                                            text(ctx.searchKeyword)
+                                            placeholder("Search method, params, response…")
+                                            placeholderColor(Color(0xFF6B7280))
+                                            color(Color.WHITE)
+                                            fontSize(12f)
+                                            returnKeyTypeSearch()
+                                        }
+                                        event {
+                                            textDidChange { params ->
+                                                ctx.searchKeyword = params.text
+                                                ctx.refresh(ctx.attr.logStore.snapshot())
+                                            }
+                                        }
+                                    }
+                                    Text {
+                                        attr {
+                                            marginLeft(12f)
+                                            text("Reset")
+                                            color(Color(0xFF93C5FD))
+                                            fontSize(12f)
+                                        }
+                                        event {
+                                            click {
+                                                ctx.searchKeyword = ""
+                                                ctx.refresh(ctx.attr.logStore.snapshot())
+                                            }
+                                        }
+                                    }
+                                }
+
                                 Scroller {
                                     attr {
                                         flex(1f)
@@ -175,20 +220,20 @@ class DebugConsoleView : ComposeView<DebugConsoleAttr, DebugConsoleEvent>() {
                                     vfor({ ctx.displayLogs }) { entry ->
                                         Text {
                                             attr {
-                                                height(34f)
+                                                height(40f)
                                                 marginBottom(1f)
                                                 backgroundColor(
-                                                    if (entry.level == DebugLogLevel.ERROR) {
-                                                        Color(0x553B0A0A)
-                                                    } else {
-                                                        Color(0x331F2937)
+                                                    when (entry.level) {
+                                                        DebugLogLevel.ERROR -> Color(0x553B0A0A)
+                                                        DebugLogLevel.WARN -> Color(0x55422D0A)
+                                                        else -> Color(0x331F2937)
                                                     }
                                                 )
                                                 color(
-                                                    if (entry.level == DebugLogLevel.ERROR) {
-                                                        Color(0xFFFCA5A5)
-                                                    } else {
-                                                        Color(0xFFD1D5DB)
+                                                    when (entry.level) {
+                                                        DebugLogLevel.ERROR -> Color(0xFFFCA5A5)
+                                                        DebugLogLevel.WARN -> Color(0xFFFDE68A)
+                                                        else -> Color(0xFFD1D5DB)
                                                     }
                                                 )
                                                 fontSize(11f)
@@ -217,6 +262,7 @@ class DebugConsoleView : ComposeView<DebugConsoleAttr, DebugConsoleEvent>() {
     private fun refresh(entries: List<DebugLogEntry>) {
         val filtered = entries
             .filter { !errorOnly || it.level == DebugLogLevel.ERROR }
+            .filter { searchKeyword.isBlank() || searchKeyword.trim().lowercase() in it.searchText }
             .takeLast(attr.maxDisplayCount.coerceAtLeast(1))
         displayLogs.diffUpdate(filtered)
     }

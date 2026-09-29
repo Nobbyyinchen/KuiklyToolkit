@@ -26,6 +26,7 @@ data class DebugLogEntry(
         get() = buildString {
             if (timeText.isNotBlank()) append("[$timeText]")
             if (pageName.isNotBlank()) append("[$pageName]")
+            append("[${level.name}]")
             if (tag.isNotBlank()) append("[$tag]")
             if (repeatCount > 1) append("[x$repeatCount]")
             if (isNotEmpty()) append(' ')

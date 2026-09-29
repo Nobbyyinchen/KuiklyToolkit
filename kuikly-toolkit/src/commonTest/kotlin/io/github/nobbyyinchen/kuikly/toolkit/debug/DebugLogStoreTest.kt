@@ -14,6 +14,7 @@ class DebugLogStoreTest {
         val entry = store.snapshot().single()
         assertEquals(2, entry.repeatCount)
         assertEquals("10:01", entry.timeText)
+        assertEquals("[10:01][home][INFO][network][x2] request", entry.displayText)
     }
 
     @Test

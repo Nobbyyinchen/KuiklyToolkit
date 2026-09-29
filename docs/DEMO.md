@@ -20,14 +20,14 @@ The APK is also uploaded by the standalone GitHub workflow when its build succee
 
 | Page | What to try |
 | --- | --- |
-| AdaptiveHeightPager | Drag the 120 / 220 / 160 height cards slowly; watch following content and height readout |
+| AdaptiveHeightPager | Swipe between 2-row, 4-row and 3-row category menus; watch the featured section move continuously with the pager height |
 | StableImage | Select blue, missing and green asset sources; observe the delayed load and fallback |
 | LazyMountContainer | Scroll through eight cards and return; inspect the mounted counter |
 | PaginatedWaterfall | Scroll to page 2, retry its simulated first failure, then refresh |
-| DebugConsole | Open the floating console; append repeated/warning logs, filter, clear and copy |
+| DebugConsole | Trigger simulated API requests, open the console, then inspect methods, parameters, responses, errors, keyword search, repeated-log folding, filtering and copying |
 | KMP JSON serialization | Decode empty-string and valid fields; reject an invalid non-empty list type |
 
-All text and test data are generic. The image loader supports the demo's local toolkit assets only; it is not a production network loader.
+All text and test data are generic. API operations in DebugConsole are local simulations: business code explicitly appends every log to `DebugLogStore`; the console does not hook requests or methods. The image loader supports the demo's local toolkit assets only; it is not a production network loader.
 
 To open one page directly:
 

@@ -11,13 +11,13 @@
 
 **[下载预览 APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0)** · **[运行 Android Demo](docs/DEMO.md)** · **[快速接入](docs/QUICK_START.md)** · **[组件示例与边界](docs/COMPONENTS.md)** · **[验证矩阵](docs/COMPATIBILITY.md)**
 
-![AdaptiveHeightPager — actual Android demo](docs/media/adaptive-height-pager.gif)
+## 不同数量的分类菜单，连续变化的页面高度
 
-真实 Android 模拟器录屏，展示不同高度页面及跟随内容。 [MP4](docs/media/adaptive-height-pager.mp4) · [CI evidence](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590)
+![AdaptiveHeightPager — category menu demo](docs/media/adaptive-height-pager.gif)
 
-## 从一个具体问题开始
+不同分类拥有不同数量的菜单时，传统固定高度 Pager 会产生空白，直接改变高度又容易发生跳变。
 
-页面高度不同，横向切换时希望下方内容跟随手势连续移动？`AdaptiveHeightPager` 根据调用方提供的页面高度，随滑动进度连续调整容器高度。
+`AdaptiveHeightPager` 会根据当前页与目标页高度，随横向滑动进度连续调整容器高度，适用于首页菜单、分类入口和不同高度内容分页。Demo 依次展示推荐 2 行、服务 4 行、生活 3 行菜单；菜单下方的“精选内容”会跟随手势连续上下移动。[MP4](docs/media/adaptive-height-pager.mp4)
 
 ```kotlin
 import com.tencent.kuikly.core.views.View
@@ -28,17 +28,25 @@ import io.github.nobbyyinchen.kuikly.toolkit.pager.AdaptiveHeightPager
 AdaptiveHeightPager {
     attr {
         pageWidth = 343f
-        initPageItems(cards, height = { it.height }) { card ->
+        initPageItems(categories, height = { it.height }) { category ->
             View {
-                attr { size(343f, card.height) }
-                Text { attr { text(card.title) } }
+                attr { size(343f, category.height) }
+                MenuGrid(category)
             }
         }
     }
 }
 ```
 
-完整页面见 [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/DemoPages.kt)，可从独立 Android Demo 菜单直接打开。组件是有边界分页器，不自动测量内容、不创建首尾循环节点。[实现说明：异高页面切换](docs/ADAPTIVE_PAGER.md)。
+完整页面见 [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/AdaptivePagerDemoPage.kt)，可从独立 Android Demo 菜单直接打开。组件是有边界分页器，不自动测量内容、不创建首尾循环节点。[实现说明：异高页面切换](docs/ADAPTIVE_PAGER.md)。
+
+## 真机页面里的接口调试台
+
+开发和联调阶段可以直接在运行中的 Kuikly 页面查看调试日志。业务可以将接口方法、请求参数、返回结果、页面状态和异常写入 `DebugLogStore`，再通过 `DebugConsole` 在真机中搜索、筛选、折叠、清空和复制。
+
+Demo 提供获取用户、加载商品、提交订单、接口失败和轮询五组本地模拟操作，同时覆盖 INFO、WARN、ERROR、不同 tag 与重复日志。所有请求均为离线 Mock。
+
+> 日志由业务主动写入 `DebugLogStore`；`DebugConsole` 不负责自动 Hook 网络请求或业务方法。
 
 ## 六个能力，按需使用
 
@@ -48,7 +56,7 @@ AdaptiveHeightPager {
 | 图片加载中或失败时需要兜底效果 | `StableImage`，兜底图与网络图两层节点 | [图片示例](docs/COMPONENTS.md#stableimage) |
 | 滚动内容接近可视区域时才需要构建 | `LazyMountContainer`，一次性懒挂载 | [懒挂载示例](docs/COMPONENTS.md#lazymountcontainer) |
 | 分页需要防重复加载和旧响应覆盖 | `PaginatedWaterfall`，请求及内容由调用方提供 | [瀑布流示例](docs/COMPONENTS.md#paginatedwaterfall) |
-| 希望在页面内查看、筛选和复制日志 | `DebugConsole` + `DebugLogStore` | [调试示例](docs/COMPONENTS.md#debugconsole) |
+| 真机联调时查看接口、参数、返回值和异常 | `DebugConsole` + `DebugLogStore` | [调试示例](docs/COMPONENTS.md#debugconsole) |
 | 后端以空字符串表示非 String 字段 | 独立的 kotlinx.serialization 字段适配器 | [序列化模块](kuikly-lenient-serialization/README.md) |
 
 ## 运行与接入

@@ -11,15 +11,21 @@ UI components and in-app debugging tools for the **traditional Kuikly DSL**, plu
 
 **[Download preview APK](https://github.com/Nobbyyinchen/KuiklyToolkit/releases/tag/v0.1.0)** · **[Run the Android demo](docs/DEMO.md)** · **[Get started](docs/QUICK_START.md)** · **[Examples](docs/COMPONENTS.md)** · **[Compatibility](docs/COMPATIBILITY.md)**
 
-![AdaptiveHeightPager — actual Android demo](docs/media/adaptive-height-pager.gif)
+## Category menus that change height continuously
 
-Recorded from the actual Android demo on an API 29 emulator. [MP4](docs/media/adaptive-height-pager.mp4) · [CI evidence](https://github.com/Nobbyyinchen/KuiklyToolkit/actions/runs/36396310590)
+![AdaptiveHeightPager — category menu demo](docs/media/adaptive-height-pager.gif)
 
-## Start with a visible problem
+When categories contain different numbers of menu items, a fixed-height pager leaves empty space and changing height only after settling creates a visible jump. `AdaptiveHeightPager` interpolates between the current and target heights throughout the horizontal drag.
 
-Pages have different heights, but the content below them should follow a horizontal drag smoothly. `AdaptiveHeightPager` interpolates the container height using page heights supplied by the caller.
+The demo moves through 2-row, 4-row and 3-row menus. Its featured-content card stays directly below the pager and follows the gesture continuously. [Watch the MP4](docs/media/adaptive-height-pager.mp4).
 
-The complete [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/DemoPages.kt) runs from the independent Android demo menu. This is a bounded pager; it does not measure arbitrary content automatically or add looping pages.
+The complete [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobbyyinchen/kuikly/toolkit/sample/AdaptivePagerDemoPage.kt) runs from the independent Android demo menu. This is a bounded pager; it does not measure arbitrary content automatically or add looping pages.
+
+## API debugging on a running device
+
+During development, business code can append methods, parameters, responses, state transitions and failures to `DebugLogStore`, then inspect, search, filter, fold, clear and copy them through `DebugConsole` on the running Kuikly page.
+
+The demo provides five offline mock operations covering INFO, WARN, ERROR, multiple tags and repeated polling logs. Logs are written explicitly by business code; `DebugConsole` does not automatically hook network requests or methods.
 
 | Use case | Component |
 | --- | --- |
@@ -27,7 +33,7 @@ The complete [AdaptivePagerDemoPage](sample/src/commonMain/kotlin/io/github/nobb
 | A fallback during image loading or failure | StableImage |
 | Mount content once near the viewport | LazyMountContainer |
 | Guarded pagination with stale response rejection | PaginatedWaterfall |
-| Inspect, fold, filter, clear and copy logs | DebugConsole / DebugLogStore |
+| Inspect API methods, parameters, responses and failures on-device | DebugConsole / DebugLogStore |
 | Apply JSON tolerance to selected fields | [Standalone serialization module](kuikly-lenient-serialization/README.md) |
 
 ## Run the demo

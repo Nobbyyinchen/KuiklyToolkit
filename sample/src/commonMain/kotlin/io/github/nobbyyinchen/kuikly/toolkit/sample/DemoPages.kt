@@ -7,98 +7,16 @@ package io.github.nobbyyinchen.kuikly.toolkit.sample
 import com.tencent.kuikly.core.annotations.Page
 import com.tencent.kuikly.core.base.Color
 import com.tencent.kuikly.core.base.ViewBuilder
-import com.tencent.kuikly.core.base.ViewContainer
 import com.tencent.kuikly.core.pager.Pager
 import com.tencent.kuikly.core.reactive.handler.observable
 import com.tencent.kuikly.core.views.Scroller
 import com.tencent.kuikly.core.views.Text
 import com.tencent.kuikly.core.views.View
-import kotlin.math.roundToInt
-import io.github.nobbyyinchen.kuikly.toolkit.debug.DebugConsole
-import io.github.nobbyyinchen.kuikly.toolkit.debug.DebugLogLevel
-import io.github.nobbyyinchen.kuikly.toolkit.debug.DebugLogStore
 import io.github.nobbyyinchen.kuikly.toolkit.image.StableImage
 import io.github.nobbyyinchen.kuikly.toolkit.lazy.LazyMountContainer
-import io.github.nobbyyinchen.kuikly.toolkit.pager.AdaptiveHeightPager
 import io.github.nobbyyinchen.kuikly.toolkit.waterfall.PaginatedWaterfall
 import io.github.nobbyyinchen.kuikly.toolkit.waterfall.PaginatedWaterfallView
 import io.github.nobbyyinchen.kuikly.toolkit.waterfall.PaginationLoadState
-
-/** Optional service supplied by the independent demo host, never by the libraries. */
-object DemoPlatform {
-    var copyToClipboard: (String) -> Unit = {}
-}
-
-private fun ViewContainer<*, *>.DemoText(value: String, large: Boolean = false) {
-    Text {
-        attr {
-            text(value)
-            fontSize(if (large) 22f else 15f)
-            color(Color(0xFF172554))
-            margin(16f)
-        }
-    }
-}
-
-private fun ViewContainer<*, *>.DemoButton(label: String, action: () -> Unit) {
-    View {
-        attr {
-            height(44f)
-            marginLeft(16f)
-            marginRight(16f)
-            marginBottom(8f)
-            borderRadius(10f)
-            backgroundColor(Color(0xFFE0EAFF))
-            allCenter()
-        }
-        Text { attr { text(label); fontSize(15f); color(Color(0xFF1D4ED8)) } }
-        event { click { action() } }
-    }
-}
-
-@Page("toolkit_pager")
-class AdaptivePagerDemoPage : Pager() {
-    private var liveHeight by observable(120f)
-
-    override fun body(): ViewBuilder {
-        val ctx = this
-        val width = (pageData.pageViewWidth - 32f).coerceAtLeast(1f)
-        val cards = listOf(
-            PagerExampleItem("01 / Short · 120", 120f, Color(0xFF2563EB)),
-            PagerExampleItem("02 / Tall · 220", 220f, Color(0xFF0F766E)),
-            PagerExampleItem("03 / Medium · 160", 160f, Color(0xFF7C3AED)),
-        )
-        return {
-            attr { backgroundColor(Color.WHITE) }
-            DemoText("AdaptiveHeightPager", large = true)
-            DemoText("Drag slowly. The next section follows the interpolated height.")
-            AdaptiveHeightPager {
-                attr {
-                    marginLeft(16f)
-                    pageWidth = width
-                    initPageItems(cards, height = { it.height }) { card ->
-                        View {
-                            attr { size(width, card.height); borderRadius(16f); backgroundColor(card.color); allCenter() }
-                            Text { attr { text(card.title); fontSize(22f); color(Color.WHITE) } }
-                        }
-                    }
-                }
-                event { heightDidChange { ctx.liveHeight = it } }
-            }
-            View {
-                attr { margin(16f); height(100f); borderRadius(12f); backgroundColor(Color(0xFFF1F5F9)); allCenter() }
-                Text {
-                    attr {
-                        text("Following content\nHeight: ${ctx.liveHeight.roundToInt()}")
-                        fontSize(18f)
-                        color(Color(0xFF334155))
-                    }
-                }
-            }
-            DemoText("Heights are supplied by the caller. No automatic measurement or looping.")
-        }
-    }
-}
 
 @Page("toolkit_image")
 class StableImageDemoPage : Pager() {
@@ -224,30 +142,6 @@ class WaterfallDemoPage : Pager() {
                         }
                     }
                 }
-            }
-        }
-    }
-}
-
-@Page("toolkit_console")
-class DebugConsoleDemoPage : Pager() {
-    private val logs = DebugLogStore(maxLogSize = 50, pageNameProvider = { "console-demo" }).apply {
-        append("demo", "Ready")
-        append("demo", "Ready")
-        append("network", "Simulated failure", DebugLogLevel.ERROR)
-    }
-
-    override fun body(): ViewBuilder {
-        val ctx = this
-        return {
-            attr { backgroundColor(Color.WHITE) }
-            DemoText("DebugConsole", large = true)
-            DemoText("Open the console button. Filter, fold, clear and copy logs.")
-            DemoButton("Append repeated message") { ctx.logs.append("demo", "Repeated message") }
-            DemoButton("Append warning") { ctx.logs.append("demo", "A sample warning", DebugLogLevel.WARN) }
-            DebugConsole {
-                attr { store(ctx.logs) }
-                event { copyRequested { DemoPlatform.copyToClipboard(it.displayText) } }
             }
         }
     }
